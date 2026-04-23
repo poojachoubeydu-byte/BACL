@@ -23,9 +23,23 @@ export interface EnhanceResponse {
   warnings: string[];
 }
 
+/**
+ * When VITE_BCAL_MODE=static the bundle is a standalone site (e.g. Cloudflare
+ * Pages) with no server proxy — we short-circuit and render the deterministic
+ * template immediately rather than firing a fetch that will 404.
+ */
+const STATIC_MODE = import.meta.env.VITE_BCAL_MODE === 'static';
+
 export async function generateReviewerReadyLanguage(
   sep: Partial<StatisticalEvidencePackage>
 ): Promise<EnhanceResponse> {
+  if (STATIC_MODE) {
+    return {
+      language: renderTemplateLanguage(sep),
+      source: 'template',
+      warnings: [],
+    };
+  }
   try {
     const res = await fetch('/api/enhance', {
       method: 'POST',

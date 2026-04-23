@@ -1,52 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
 @import "tailwindcss";
 
 /*
- * Soft palette — ivory, cream, gold, warm grey.
- * No true blacks, no saturated brights. Accessible contrast is preserved via
- * grey-900 (#3C3A36) on ivory (#FAF7F0) ≈ 9.6:1 ratio.
+ * BCAL palette — LIGHT & BRIGHT.
+ * Base is pure white; cards sit on a barely-tinted warm white for depth.
+ * Gold is the primary accent (vivid, not dulled). Sage + rose for status.
+ * Text is a crisp near-black so contrast on white stays WCAG AAA.
  */
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-ivory: #FAF7F0;
-  --color-cream: #F5EFE4;
-  --color-parchment: #F2ECE0;
+  /* surfaces */
+  --color-bg:        #FFFFFF;
+  --color-surface:   #FBF9F3;
+  --color-surface-2: #F6F1E3;
+  --color-surface-3: #F2EAD3;
 
-  --color-gold-50: #FBF6E8;
-  --color-gold-100: #F3E8C3;
-  --color-gold-200: #E6D49A;
-  --color-gold-300: #D7BB74;
-  --color-gold-400: #C9A65B;
-  --color-gold-500: #B88F44;
-  --color-gold-600: #A07833;
-  --color-gold-700: #825F28;
+  /* gold scale — vivid, clean, modern */
+  --color-gold-50:   #FDF9EC;
+  --color-gold-100:  #FAF0CE;
+  --color-gold-200:  #F2E0A2;
+  --color-gold-300:  #E8C875;
+  --color-gold-400:  #D4AF37;
+  --color-gold-500:  #BD9628;
+  --color-gold-600:  #9B7A1F;
+  --color-gold-700:  #7C5F17;
 
-  --color-warm-50: #F7F5EF;
-  --color-warm-100: #EFECE4;
-  --color-warm-200: #E3DFD6;
-  --color-warm-300: #CCC6B8;
-  --color-warm-400: #A8A294;
-  --color-warm-500: #8A857C;
-  --color-warm-600: #6B6862;
-  --color-warm-700: #5A5751;
-  --color-warm-800: #47453F;
-  --color-warm-900: #3C3A36;
+  /* neutral scale — crisp greys, no warm muddiness */
+  --color-ink-900:   #1A1A1A;
+  --color-ink-800:   #2B2B2B;
+  --color-ink-700:   #3F3F3F;
+  --color-ink-600:   #5C5C5C;
+  --color-ink-500:   #7A7A7A;
+  --color-ink-400:   #A3A3A3;
+  --color-ink-300:   #D1D1D1;
+  --color-ink-200:   #E6E3DA;
+  --color-ink-100:   #F1EDE0;
 
-  --color-sage-300: #A8B59C;
-  --color-sage-500: #6F8A69;
-  --color-sage-700: #4E6149;
+  /* accent status colors */
+  --color-sage-300:  #B6D4B1;
+  --color-sage-500:  #6FA96A;
+  --color-sage-700:  #3F7A3B;
 
-  --color-rose-300: #D9A3A0;
-  --color-rose-500: #B57670;
-  --color-rose-700: #8A5049;
+  --color-rose-300:  #F0B5B0;
+  --color-rose-500:  #D48B85;
+  --color-rose-700:  #A85A55;
+
+  --color-sky-300:   #B8DBF0;
+  --color-sky-500:   #6FA8CF;
+  --color-sky-700:   #3E7CA3;
 }
 
 @layer base {
   html, body {
-    background: var(--color-ivory);
-    color: var(--color-warm-900);
+    background: var(--color-bg);
+    color: var(--color-ink-900);
   }
   body {
     @apply antialiased;
@@ -56,44 +65,48 @@
     outline-offset: 2px;
     border-radius: 4px;
   }
+  ::selection {
+    background: var(--color-gold-100);
+    color: var(--color-ink-900);
+  }
 }
 
 .markdown-body {
   @apply text-sm leading-relaxed;
-  color: var(--color-warm-800);
+  color: var(--color-ink-800);
 }
 
 .markdown-body h1 {
   @apply text-2xl font-black uppercase tracking-tight mb-4 pb-2;
-  color: var(--color-warm-900);
+  color: var(--color-ink-900);
   border-bottom: 2px solid var(--color-gold-400);
 }
 .markdown-body h2 {
   @apply text-lg font-bold uppercase tracking-wide mt-6 mb-3 pb-1;
-  color: var(--color-warm-900);
-  border-bottom: 1px solid var(--color-warm-200);
+  color: var(--color-ink-900);
+  border-bottom: 1px solid var(--color-ink-200);
 }
 .markdown-body h3 {
   @apply text-sm font-bold uppercase tracking-widest mt-4 mb-2;
-  color: var(--color-warm-700);
+  color: var(--color-ink-700);
 }
 .markdown-body p { @apply mb-4; }
 .markdown-body ul { @apply list-disc list-inside mb-4 space-y-1; }
 .markdown-body strong {
   @apply font-bold;
-  color: var(--color-warm-900);
+  color: var(--color-ink-900);
 }
 .markdown-body blockquote {
   @apply pl-4 italic my-6 py-2;
   border-left: 3px solid var(--color-gold-400);
-  color: var(--color-warm-700);
-  background: var(--color-cream);
+  color: var(--color-ink-700);
+  background: var(--color-gold-50);
   border-radius: 0 6px 6px 0;
 }
 .markdown-body code {
   @apply font-mono text-xs px-1.5 py-0.5 rounded;
-  background: var(--color-warm-100);
-  color: var(--color-warm-900);
+  background: var(--color-ink-100);
+  color: var(--color-ink-900);
 }
 .markdown-body table {
   @apply w-full my-4 text-xs;
@@ -101,11 +114,17 @@
   background: #ffffff;
 }
 .markdown-body th, .markdown-body td {
-  border: 1px solid var(--color-warm-200);
+  border: 1px solid var(--color-ink-200);
   padding: 0.5rem 0.7rem;
   text-align: left;
 }
 .markdown-body th {
-  background: var(--color-cream);
+  background: var(--color-surface);
   font-weight: 600;
+  color: var(--color-ink-900);
+}
+
+/* smooth anchored scroll for in-app doc links */
+html {
+  scroll-behavior: smooth;
 }

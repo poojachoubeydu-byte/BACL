@@ -1,0 +1,8 @@
+# SPA fallback — any unknown path serves index.html so client-side routing
+# (or a direct link to /docs, /sep, /instrument) resolves correctly.
+/*   /index.html   200
+
+# Block the dev-only API path explicitly on the static deploy so it never
+# leaks a 404 page into the UI (the frontend uses its deterministic fallback
+# when this responds with anything non-2xx).
+/api/*   /index.html   404

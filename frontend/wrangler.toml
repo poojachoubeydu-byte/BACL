@@ -1,0 +1,16 @@
+# Cloudflare Pages project descriptor.
+#
+# Pages via the dashboard git integration doesn't strictly require this file,
+# but having it lets you run `wrangler pages deploy dist` locally for ad-hoc
+# uploads, and it documents the project layout in-repo.
+#
+# Install wrangler once:
+#   npm install -g wrangler  (or: npx wrangler ...)
+#
+# Then:
+#   cd frontend && npm run build
+#   VITE_BCAL_MODE=static wrangler pages deploy dist --project-name=bcal
+
+name = "bcal"
+compatibility_date = "2026-04-23"
+pages_build_output_dir = "./dist"

@@ -1,0 +1,39 @@
+{
+  "name": "BCAL",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "forwardPorts": [3000, 8787],
+  "portsAttributes": {
+    "3000": {
+      "label": "BCAL UI (Vite)",
+      "onAutoForward": "openPreview",
+      "visibility": "public"
+    },
+    "8787": {
+      "label": "BCAL API (Express proxy)",
+      "onAutoForward": "silent"
+    }
+  },
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+  "postAttachCommand": "bash .devcontainer/post-attach.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "ms-python.mypy-type-checker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/python/3.12.1/bin/python",
+        "[python]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "charliermarsh.ruff"
+        },
+        "[typescript]": {"editor.defaultFormatter": "esbenp.prettier-vscode"},
+        "[typescriptreact]": {"editor.defaultFormatter": "esbenp.prettier-vscode"}
+      }
+    }
+  }
+}
