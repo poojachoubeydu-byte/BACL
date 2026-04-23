@@ -133,7 +133,7 @@ export default function App(): JSX.Element {
         }}
         aria-label="Primary"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center gap-3">
               <div
@@ -231,7 +231,7 @@ export default function App(): JSX.Element {
         </div>
       </nav>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 py-8">
         <AnimatePresence mode="wait">
           {activeTab === 'audit' && (
             <motion.div
@@ -831,7 +831,7 @@ export default function App(): JSX.Element {
           borderTop: `1px solid ${palette.ink200}`,
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="w-full px-6 sm:px-8 lg:px-12 xl:px-16 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <div
             className="text-[10px] font-medium uppercase tracking-[0.2em]"
             style={{color: palette.ink500}}
