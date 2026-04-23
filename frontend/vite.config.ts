@@ -6,10 +6,13 @@ import {defineConfig} from 'vite';
 // NOTE: We intentionally do NOT inject GEMINI_API_KEY into the browser bundle.
 // API keys must never be exposed client-side. The frontend calls /api/enhance
 // on a server proxy (see frontend/server/) which holds the key server-side.
-export default defineConfig(() => {
-  // VITE_BASE_PATH lets us emit asset URLs under a sub-path for GitHub Pages
-  // (e.g. "/BACL/"). Defaults to "/" for Cloudflare Pages and custom domains.
-  const base = process.env.VITE_BASE_PATH || '/';
+export default defineConfig(({command}) => {
+  // Production default: deploy under the `/BACL/` sub-path of GitHub Pages.
+  // Override with VITE_BASE_PATH when deploying to a root domain (e.g.
+  // Cloudflare Pages with a custom domain): set VITE_BASE_PATH=/.
+  // In `vite` (dev server) we always serve from root for HMR ergonomics.
+  const base =
+    process.env.VITE_BASE_PATH ?? (command === 'build' ? '/BACL/' : '/');
 
   return {
     base,

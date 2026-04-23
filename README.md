@@ -1,29 +1,33 @@
 # BCAL — BioCompliance Audit Layer
 
-[![CI](https://github.com/your-org/bcal/actions/workflows/ci.yml/badge.svg)](https://github.com/your-org/bcal/actions/workflows/ci.yml)
+[![CI](https://github.com/poojachoubeydu-byte/BACL/actions/workflows/ci.yml/badge.svg)](https://github.com/poojachoubeydu-byte/BACL/actions/workflows/ci.yml)
 [![Coverage](https://img.shields.io/badge/coverage-88%25-brightgreen)](#)
 [![Python](https://img.shields.io/badge/python-3.11%2B-blue)](#)
 [![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 
-**BCAL** is a statistical-evidence auditing framework for regulated
-bioinformatics pipelines. It sits *alongside* your pipeline (Nextflow,
-Snakemake, plain Python) and produces a **Statistical Evidence Package
-(SEP)** — a machine- and human-readable audit artefact pre-aligned with
-**21 CFR Part 11**, **ICH E9R1**, and **CAP / CLIA**.
+**BCAL is an enterprise-grade BioCompliance engine.** It bridges the gap
+between genomic research and IT audit rigor — turning opaque, notebook-driven
+bioinformatics pipelines into defensible, regulator-ready evidence packages.
+
+Target frameworks: **21 CFR Part 11** (electronic records & signatures),
+**ICH E9R1** (statistical principles for clinical trials), **EMA** scientific
+guidelines, and **CAP / CLIA** clinical-laboratory accreditation.
 
 ---
 
-## Why
+## The problem
 
 Modern biomarker and clinical-omics pipelines produce defensible results only
 if *every decision* is documented: which samples were excluded and why, which
-tool versions ran, whether subgroup effects survive stratification. Reviewers
-and auditors routinely find pipelines that are technically correct but
-**unaccountable** — the data is in notebooks, Slack threads, and operator
-memory rather than a single reproducible record.
+tool versions ran, whether subgroup effects survive stratification. Auditors
+routinely find pipelines that are technically correct but **unaccountable** —
+the critical context is in notebooks, Slack threads, and operator memory
+rather than a single reproducible record.
 
-BCAL fixes that by intercepting the five decision points where
-irreproducibility typically enters:
+BCAL closes that gap. It attaches to a pipeline at the five decision points
+where irreproducibility typically enters, and emits a cryptographically
+sealed **Statistical Evidence Package (SEP)** that a regulator can verify
+with a single command.
 
 | Module | Role | Aligns with |
 |---|---|---|
@@ -33,8 +37,7 @@ irreproducibility typically enters:
 | **M4** Batch Effect Audit | PVCA-style variance partition + stratified PCA | GxP reproducibility |
 | **M5** Outlier Ledger | Biological vs. technical classification with evidence | CAP GEN.41350 |
 
-The output is a **sealed** (SHA-256) SEP in four formats: JSON, Markdown, CSV,
-and PDF/HTML.
+Outputs: a **SHA-256-sealed** SEP in JSON, Markdown, CSV, and PDF/HTML.
 
 ---
 
@@ -51,7 +54,7 @@ bcal audit \
     --pipeline-version 1.2.3 \
     --operator "$USER"
 
-# Verify a SEP hasn't been tampered with
+# Verify a SEP has not been tampered with
 bcal verify audit_output/SEP-*.json
 ```
 
@@ -124,22 +127,25 @@ tests/                   61 tests, 88% coverage (pytest)
 nextflow/bcal_module.nf  Drop-in Nextflow process
 snakemake/bcal_rule.smk  Snakemake rule template
 notebooks/               Jupyter demo
-.github/workflows/       CI + BCAL-on-release workflows
-bcal_-biocompliance-audit-layer/
-                         Frontend dashboard (Vite/React, soft palette)
+.github/workflows/       CI + release + Pages deploy
+frontend/                Enterprise dashboard (Vite / React 19)
 ```
 
 ---
 
-## Zero-cost by default
+## Engineering guarantees
 
-The reviewer-ready language is generated from a **Jinja2 template** — no LLM
-is called. If you opt in (`GEMINI_API_KEY` + `?mode=llm`), the server proxy
-calls Gemini; the API key is never exposed to the browser.
-
-PDF rendering uses **WeasyPrint** if installed (`pip install bcal[pdf]`);
-otherwise BCAL falls back to an HTML document with the same layout — no
-LaTeX toolchain required.
+- **Deterministic output.** Every writer produces byte-identical output for
+  identical input — verified by golden-file tests.
+- **Tamper-evident seals.** A SHA-256 seal over the canonical JSON of a SEP
+  makes any post-hoc modification detectable by `bcal verify`.
+- **No external calls on the critical path.** The default reviewer-ready
+  narrative is generated from a Jinja2 template. Optional AI-assisted
+  narrative is an opt-in feature that routes through a server proxy — the
+  client bundle never ships credentials.
+- **PDF rendering.** Uses WeasyPrint if installed (`pip install bcal[pdf]`);
+  otherwise falls back to a styled HTML document — no LaTeX toolchain
+  required in CI.
 
 ---
 
@@ -160,4 +166,3 @@ See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the workflow and
 ## License
 
 Apache-2.0. See [LICENSE](LICENSE).
- 
