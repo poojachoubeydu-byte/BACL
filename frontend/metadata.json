@@ -1,0 +1,6 @@
+{
+  "name": "BCAL: BioCompliance Audit Layer",
+  "description": "Regulatory-grade audit and evidence package generator for bioinformatics pipelines, ensuring ICH E9R1 and 21 CFR Part 11 compliance.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

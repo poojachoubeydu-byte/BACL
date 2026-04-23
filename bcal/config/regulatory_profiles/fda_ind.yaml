@@ -1,0 +1,26 @@
+# FDA IND — 21 CFR Part 11 + ICH E9R1 alignment
+code: fda_ind
+name: FDA IND (21 CFR Part 11)
+description: >
+  Baseline compliance profile for an Investigational New Drug submission.
+  Enforces the record-keeping and pre-specification requirements of 21 CFR
+  Part 11 and the statistical principles from ICH E9R1.
+checklist:
+  - item: Traceability of method versions
+    status: ok
+    reference: 21 CFR 11.10(e)
+  - item: Electronic signature for every sample exclusion
+    status: ok
+    reference: 21 CFR 11.50
+  - item: SHA-256 integrity digest of all raw input files
+    status: ok
+    reference: 21 CFR 11.10(c)
+  - item: Subgroup pre-specification (Simpson's Paradox audit)
+    status: warning
+    reference: ICH E9R1 §5.2.3
+  - item: Method parameter lock recorded (config digest)
+    status: ok
+    reference: ICH E9R1 §6.1
+  - item: Reviewer-ready narrative generated deterministically
+    status: ok
+    reference: 21 CFR 11.10(a)

@@ -1,0 +1,107 @@
+{# Deterministic reviewer-ready narrative. No LLM. Idempotent. -#}
+# Statistical Evidence Package — {{ sep.id }}
+
+> _Schema version {{ sep.schema_version }} · Generated deterministically by BCAL {{ bcal_version }}_
+
+## 1. Pipeline Provenance Record
+
+| Field | Value |
+|---|---|
+| Pipeline | **{{ sep.pipeline_provenance.pipeline_name }}** (v{{ sep.pipeline_provenance.version }}) |
+| Operator | `{{ sep.pipeline_provenance.operator }}` |
+| Timestamp (UTC) | `{{ sep.pipeline_provenance.timestamp }}` |
+| Input manifest SHA-256 | `{{ sep.pipeline_provenance.sha256 }}` |
+{% if sep.pipeline_provenance.reference_genome -%}
+| Reference genome | `{{ sep.pipeline_provenance.reference_genome }}` |
+{% endif -%}
+{% if sep.pipeline_provenance.annotation_version -%}
+| Annotation | `{{ sep.pipeline_provenance.annotation_version }}` |
+{% endif -%}
+{% if sep.pipeline_provenance.host -%}
+| Host | `{{ sep.pipeline_provenance.host }}` |
+{% endif %}
+
+{% if sep.pipeline_provenance.tool_versions -%}
+### Tool versions (M3 lock)
+{% for name, version in sep.pipeline_provenance.tool_versions.items() | sort -%}
+- `{{ name }}` = `{{ version }}`
+{% endfor %}
+{%- endif %}
+
+## 2. Decision Log (M2 — 21 CFR Part 11)
+
+{% if sep.decision_log -%}
+| Sample | Reason | Operator | Timestamp (UTC) |
+|---|---|---|---|
+{% for e in sep.decision_log -%}
+| `{{ e.sample_id }}` | {{ e.reason }} | `{{ e.operator_id }}` | `{{ e.timestamp }}` |
+{% endfor %}
+
+**Justifications**
+
+{% for e in sep.decision_log -%}
+- **{{ e.sample_id }}** — _{{ e.justification }}_
+{% endfor %}
+{%- else -%}
+*No sample exclusions recorded.*
+{%- endif %}
+
+## 3. Subgroup Consistency (M1 — ICH E9R1)
+
+{% if sep.subgroup_findings -%}
+| Subgroup | Trait | Pooled effect | Stratum effect | Status |
+|---|---|---|---|---|
+{% for s in sep.subgroup_findings -%}
+| `{{ s.subgroup_id }}` | {{ s.trait }} | {{ s.baseline }} | {{ s.effect }} | **{{ s.status }}** |
+{% endfor %}
+
+{% set paradoxes = sep.subgroup_findings | selectattr("status", "equalto", "paradox") | list -%}
+{% if paradoxes -%}
+> ⚠️ **{{ paradoxes | length }} Simpson's-paradox reversal(s) detected.** Review the pre-specified subgroup plan before signing this package.
+{%- endif -%}
+{%- else -%}
+*No subgroup findings recorded.*
+{%- endif %}
+
+## 4. Batch Effect Audit (M4)
+
+{% if sep.batch_audit -%}
+- **Variance attributable to batch (PVCA):** `{{ sep.batch_audit.variance_ratio }}`
+- **Correction applied:** `{{ sep.batch_audit.correction_applied or "none" }}`
+- **Samples plotted:** {{ sep.batch_audit.principal_components | length }}
+{%- else -%}
+*No batch audit recorded for this run.*
+{%- endif %}
+
+## 5. Outlier Ledger (M5)
+
+{% if sep.outlier_ledger -%}
+| Sample | Classification | Z-score | Evidence |
+|---|---|---|---|
+{% for o in sep.outlier_ledger -%}
+| `{{ o.sample_id }}` | **{{ o.classification }}** | {{ o.z_score }} | {{ o.evidence }} |
+{% endfor %}
+{%- else -%}
+*No outliers flagged.*
+{%- endif %}
+
+## 6. Regulatory Alignment Checklist
+
+{% if sep.regulatory_checklist -%}
+| Status | Item | Reference |
+|---|---|---|
+{% for c in sep.regulatory_checklist -%}
+| `{{ c.status }}` | {{ c.item }} | {{ c.reference or "—" }} |
+{% endfor %}
+{%- else -%}
+*No checklist entries.*
+{%- endif %}
+
+## 7. Package Seal
+
+| Field | Value |
+|---|---|
+| Seal (SHA-256) | `{{ sep.seal or "(not yet sealed)" }}` |
+
+> Any modification to this SEP invalidates the seal. To verify integrity:
+> `bcal verify --sep {{ sep.id }}.json`

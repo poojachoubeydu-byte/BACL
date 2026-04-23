@@ -1,0 +1,63 @@
+name: BCAL Audit (on release)
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      pipeline_path:
+        description: "Path to pipeline output inside the repo"
+        required: true
+        default: "examples/pipeline_root"
+      profile:
+        description: "Regulatory profile"
+        required: true
+        default: "fda_ind"
+        type: choice
+        options: [fda_ind, ema, cap_clia]
+
+jobs:
+  audit:
+    name: Generate Statistical Evidence Package
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # needed to attach assets to the release
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install BCAL
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Run audit
+        id: audit
+        run: |
+          bcal audit \
+              --path "${PIPELINE_PATH}" \
+              --profile "${PROFILE}" \
+              --pipeline-name "${GITHUB_REPOSITORY}" \
+              --pipeline-version "${GITHUB_REF_NAME}" \
+              --operator "github-actions@${GITHUB_ACTOR}" \
+              --out-dir audit_output
+          echo "sep_json=$(ls audit_output/*.json | head -1)" >> "$GITHUB_OUTPUT"
+        env:
+          PIPELINE_PATH: ${{ github.event.inputs.pipeline_path || 'examples/pipeline_root' }}
+          PROFILE: ${{ github.event.inputs.profile || 'fda_ind' }}
+
+      - name: Upload as workflow artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bcal-sep-${{ github.run_id }}
+          path: audit_output/
+
+      - name: Attach to release
+        if: github.event_name == 'release'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: audit_output/*

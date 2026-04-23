@@ -1,0 +1,34 @@
+# Default BCAL configuration.
+#
+# Copy this file, tune thresholds for your study, and pass it to:
+#   bcal audit --config path/to/bcal_config.yaml
+
+profile: fda_ind   # One of: fda_ind, ema, cap_clia (or path to custom YAML)
+
+modules:
+  subgroup:
+    enabled: true
+    magnitude_ratio_warning: 2.0   # warn when stratum/pooled effect ratio > this
+
+  exclusions:
+    enabled: true
+    min_justification_len: 20      # per 21 CFR Part 11 intent — enforces substance
+
+  version_lock:
+    enabled: true
+    required_tools: []             # e.g. ['deseq2', 'salmon']
+
+  batch_audit:
+    enabled: true
+    max_pcs: 8                     # number of PCs used for PVCA approximation
+
+  outlier_ledger:
+    enabled: true
+    z_threshold: 3.0               # modified-z (MAD-based)
+
+report:
+  formats: [json, md, csv, pdf]
+  output_dir: audit_output
+  reviewer_language:
+    mode: deterministic            # "deterministic" (template) | "llm" (opt-in)
+    llm_provider: null             # only used when mode == "llm"

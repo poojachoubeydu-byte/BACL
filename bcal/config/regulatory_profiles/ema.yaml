@@ -1,0 +1,22 @@
+# EMA — European Medicines Agency statistical guidance alignment
+code: ema
+name: EMA Scientific Guidelines
+description: >
+  Alignment with the EMA statistical guideline package (CHMP/EWP), including
+  multiplicity control and pre-specification of subgroup analyses.
+checklist:
+  - item: Pre-specified primary endpoint analysis plan
+    status: ok
+    reference: CHMP/EWP/2330/99
+  - item: Multiplicity adjustment recorded
+    status: warning
+    reference: CHMP/EWP/908/99
+  - item: Subgroup analysis plan pre-specified
+    status: ok
+    reference: CHMP/EWP/117211/2010
+  - item: Method and software version captured
+    status: ok
+    reference: EMA/CHMP/GCP/2017
+  - item: Electronic audit trail retained
+    status: ok
+    reference: EudraLex Vol 4 Annex 11

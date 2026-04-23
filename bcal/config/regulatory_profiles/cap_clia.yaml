@@ -1,0 +1,22 @@
+# CAP / CLIA — Clinical diagnostic laboratory profile
+code: cap_clia
+name: CAP / CLIA Clinical Diagnostics
+description: >
+  Alignment with CAP (College of American Pathologists) laboratory
+  accreditation and CLIA-88 high-complexity testing requirements.
+checklist:
+  - item: Sample chain-of-custody recorded (operator + timestamp)
+    status: ok
+    reference: CAP GEN.40490
+  - item: Instrument QC verified prior to run
+    status: ok
+    reference: 42 CFR 493.1256
+  - item: Analytical method validation on file
+    status: ok
+    reference: 42 CFR 493.1253
+  - item: Result review documented by qualified personnel
+    status: ok
+    reference: CAP GEN.41350
+  - item: Proficiency-testing alignment recorded
+    status: warning
+    reference: 42 CFR 493.801

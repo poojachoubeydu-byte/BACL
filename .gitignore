@@ -1,0 +1,46 @@
+# Code-review-graph scratch DB
+.code-review-graph/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+
+# Virtual envs
+.venv/
+venv/
+env/
+
+# Node (frontend)
+bcal_-biocompliance-audit-layer/node_modules/
+bcal_-biocompliance-audit-layer/dist/
+bcal_-biocompliance-audit-layer/coverage/
+bcal_-biocompliance-audit-layer/.vite/
+
+# Secrets
+.env
+.env.local
+.env.*.local
+!**/.env.example
+
+# Editor / OS
+.DS_Store
+.idea/
+*.swp
+*.swo
+*~
+
+# BCAL output
+audit_output/
