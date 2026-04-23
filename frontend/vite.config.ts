@@ -7,7 +7,12 @@ import {defineConfig} from 'vite';
 // API keys must never be exposed client-side. The frontend calls /api/enhance
 // on a server proxy (see frontend/server/) which holds the key server-side.
 export default defineConfig(() => {
+  // VITE_BASE_PATH lets us emit asset URLs under a sub-path for GitHub Pages
+  // (e.g. "/BACL/"). Defaults to "/" for Cloudflare Pages and custom domains.
+  const base = process.env.VITE_BASE_PATH || '/';
+
   return {
+    base,
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
