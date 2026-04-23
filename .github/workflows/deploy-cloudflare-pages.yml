@@ -16,9 +16,9 @@ name: Deploy to Cloudflare Pages
 #    You also need to have created the Pages project once in the CF dashboard
 #    (so the projectName below matches). No secrets = workflow silently skipped.
 
+# Disabled by default — trigger manually if/when you want CF Pages deploys.
+# To re-enable auto-deploy on push, add back `push: { branches: [main] }`.
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 concurrency:
